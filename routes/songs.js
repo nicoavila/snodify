@@ -2,37 +2,36 @@ var express = require('express');
 var https = require('https');
 var router = express.Router();
 
-//Spotify Endpoint
-var spotify_endpoint = 'https://api.spotify.com/v1/search?q=';
-
 router.get('/', function(req, res){
 	
 	var song_query = req.query.search_input;
-	console.log(song_query);
+	console.log("Canciones a buscar: " + song_query);
 
+	//Configura las opciones del GET a la API de Spotify
 	var optionsget = {
-	    host : 'api.spotify.com', // here only the domain name
+	    host : 'api.spotify.com',
 	    port : 443,
-	    path : '/v1/search?type=track&q='+song_query, // the rest of the url with parameters if needed
-	    method : 'GET' // do GET
+	    path : '/v1/search?type=track&q='+song_query,
+	    method : 'GET' 
 	};
 
-	console.log(optionsget);
+	//Realiza el GET a API de Spotify
+	var spotiGet = https.request(optionsget, function(res) {
+	    console.log("Código HTTP: ", res.statusCode);
 
-	var reqGet = https.request(optionsget, function(res) {
-	    console.log("statusCode: ", res.statusCode);
-
-	    res.on('data', function(d) {
+	    res.on('data', function(sr) {
 	        console.info('GET result:\n');
-	        process.stdout.write(d);
+	        var respObj = JSON.parse(sr);
+	        console.log(respObj);
 	        console.info('\n\nCall completed');
 	    });
 
 	});
+	spotiGet.end();
 
-	reqGet.end();
-
-	reqGet.on('error', function(e) {
+	//En caso de error, muestra el mensaje de error.
+	spotiGet.on('error', function(e) {
+		console.error("Error de comunicación con Spotify...");
 	    console.error(e);
 	});
 

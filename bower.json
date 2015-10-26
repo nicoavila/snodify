@@ -1,0 +1,25 @@
+{
+  "name": "snodify",
+  "authors": [
+    "Nicolas Avila <nicolasavila.a@gmail.com>"
+  ],
+  "description": "Aplicacion que consume API de Spotify para buscar canciones",
+  "main": "",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5"
+  }
+}

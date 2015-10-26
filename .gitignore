@@ -1,6 +1,6 @@
 #Ignora directorio de dependencias
 node_modules
-public/components
+public/components/
 
 #Ignora directorio de logs
 logs

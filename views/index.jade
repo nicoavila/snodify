@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	include header.jade
+
+	.container
+		.col-md-12
+			form#formSearchSong(name="search_song",method="post",action="/search_song")
+				label(for='search_input') Ingresa el nombre de la canción a buscar
+				input(name='search_input',class='form-control', placeholder='Nomber de la canción', required='required')
+				button(class="searchBtn") Buscar
+		

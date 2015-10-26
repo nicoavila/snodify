@@ -5,10 +5,14 @@ block content
 
 	.container
 		.col-md-12
-			form#formSearchSong(name="search_song",method="post",action="/songs")
-				label(for='search_input') Ingresa el nombre de la canción a buscar
-				input(name='search_input',class='form-control', placeholder='Nombre de la canción', required='required')
-				button(class="searchBtn") Buscar
-		
-
-			h3	Resultados
+			h3	Resultados de búsqueda en Spotify para: "#{query}"
+			each track in tracks
+				.media
+					.media-left
+						img(src=track.cover, width=100, height=100)
+					.media-body
+						h4(class='media-heading') #{track.artist_name} - #{track.song_name}
+						p #{track.album_name}
+			hr
+			a(href='/', class='otherBtn') Realizar otra busqueda
+			hr

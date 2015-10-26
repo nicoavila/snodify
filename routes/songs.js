@@ -1,5 +1,6 @@
 var express = require('express');
 var https = require('https');
+var spotify = require('spotify');
 var router = express.Router();
 
 router.get('/', function(req, res){
@@ -7,32 +8,29 @@ router.get('/', function(req, res){
 	var song_query = req.query.search_input;
 	console.log("Canciones a buscar: " + song_query);
 
-	//Configura las opciones del GET a la API de Spotify
-	var optionsget = {
-	    host : 'api.spotify.com',
-	    port : 443,
-	    path : '/v1/search?type=track&q='+song_query,
-	    method : 'GET' 
-	};
+	//Busca en la cancion en Spotify
+	spotify.search({ type: 'track', query: song_query}, function(err, data) {
+	    if ( err ) {
+	        console.log('Error occurred: ' + err);
+	        return;
+	    }
 
-	//Realiza el GET a API de Spotify
-	var spotiGet = https.request(optionsget, function(res) {
-	    console.log("Código HTTP: ", res.statusCode);
+	    viewData = [];
+	    tracks = data.tracks.items;
+	    for(item in tracks){
+	    	viewData.push({
+	    		artist_name: tracks[item].artists[0].name,
+	    		album_name: tracks[item].album.name,
+	    		song_name: tracks[item].name,
+	    		cover : tracks[item].album.images[0].url
+	    	});
+	    }
 
-	    res.on('data', function(sr) {
-	        console.info('GET result:\n');
-	        var respObj = JSON.parse(sr);
-	        console.log(respObj);
-	        console.info('\n\nCall completed');
+	    //Variable a vista
+	    res.render("songs", { 
+	    	tracks : viewData,
+	    	query: song_query
 	    });
-
-	});
-	spotiGet.end();
-
-	//En caso de error, muestra el mensaje de error.
-	spotiGet.on('error', function(e) {
-		console.error("Error de comunicación con Spotify...");
-	    console.error(e);
 	});
 
 });

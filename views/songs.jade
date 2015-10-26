@@ -5,8 +5,10 @@ block content
 
 	.container
 		.col-md-12
-			form#formSearchSong(name="search_song",method="get",action="/songs")
+			form#formSearchSong(name="search_song",method="post",action="/songs")
 				label(for='search_input') Ingresa el nombre de la canción a buscar
 				input(name='search_input',class='form-control', placeholder='Nombre de la canción', required='required')
 				button(class="searchBtn") Buscar
 		
+
+			h3	Resultados

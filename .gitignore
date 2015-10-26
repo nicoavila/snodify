@@ -4,3 +4,4 @@ public/components/
 
 #Ignora directorio de logs
 logs
+npm-debug.log
